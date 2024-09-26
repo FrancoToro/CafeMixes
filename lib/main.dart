@@ -1,73 +1,103 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-
-        title: Text(widget.title),
+         leading: SvgPicture.asset(
+                  'assets/icons/cafe.svg',
+                  width: 100,
+                  height: 100,
+                  ),
+        title: Text("Cafe Mixes"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () {
+              _scaffoldKey.currentState?.openEndDrawer();
+            },
+          ),
+        ],
       ),
-      body: Center(
-
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
+      endDrawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(128, 64, 0,0),
+              ),
+              child: Text(
+                'Menú',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text('Perfil'),
+              onTap: () {
+                
+              },
             ),
+            ListTile(
+              leading: Icon(Icons.search),
+              title: Text('Buscar'),
+              onTap: () {
+                
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.list),
+              title: Text('Mis Recetas'),
+              onTap: () {
+                
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.favorite),
+              title: Text('Favoritos'),
+              onTap: () {
+                
+              },
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), 
+      body: Center(
+          child: Card(
+          elevation: 5, // Elevación de la sombra
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15), // Bordes redondeados
+          ),
+        ),
+        
+      ),
     );
   }
 }
