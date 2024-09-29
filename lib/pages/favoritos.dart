@@ -1,24 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'FrappeScreen.dart';
+import 'LatteScreen.dart';
 import 'buscar.dart';
 import 'misrecetas.dart';
 import 'perfil.dart';
-import 'my_home_page.dart';
 
 class FavoritesScreen extends StatelessWidget {
-  // Lista de recetas de ejemplo para la pantalla de favoritos
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MyFavoritesPage(),
+    );
+  }
+}
+
+class MyFavoritesPage extends StatefulWidget {
+  @override
+  _MyFavoritesPageState createState() => _MyFavoritesPageState();
+}
+
+class _MyFavoritesPageState extends State<MyFavoritesPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  int _selectedIndex = 0;
+
+  // Lista de recetas de ejemplo
   final List<Map<String, String>> favoriteRecipes = [
     {
-      'title': 'Frappe Caramelo',
-      'description': 'Frappe con sabor a caramelo',
-      'imageUrl': 'https://example.com/caramel_frappe.jpg',
+      'title': 'Frappe Chocolate',
+      'description': 'Frappe con sabor a chocolate',
+      'imageUrl':
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPTtEaEnFb-Ko48_nTjuZLb86K0go1b8wcAQ&s'
+    },
+    {
+      'title': 'Latte Vainilla',
+      'description': 'Café con leche y un toque de vainilla',
+      'imageUrl': 'https://osterstatic.reciperm.com/webp/10101.webp'
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Mis Favoritos'),
+        leading: SvgPicture.asset(
+          'assets/icons/cafe.svg',
+          width: 50,
+          height: 50,
+        ),
+        title: Text("Mis Favoritos"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () {
+              _scaffoldKey.currentState?.openEndDrawer();
+            },
+          ),
+        ],
       ),
       endDrawer: Drawer(
         child: ListView(
@@ -26,7 +66,7 @@ class FavoritesScreen extends StatelessWidget {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: const Color.fromARGB(128, 64, 0, 0),
+                color: Colors.grey,
               ),
               child: Text(
                 'Menú',
@@ -40,10 +80,10 @@ class FavoritesScreen extends StatelessWidget {
               leading: Icon(Icons.home),
               title: Text('Inicio'),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyApp()),
-                );
+                setState(() {
+                  _selectedIndex = 0;
+                });
+                Navigator.pop(context);
               },
             ),
             ListTile(
@@ -66,20 +106,23 @@ class FavoritesScreen extends StatelessWidget {
                 );
               },
             ),
-            ListTile(
-              leading: Icon(Icons.list),
-              title: Text('Mis Recetas'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyRecipesScreen()),
-                  ); // Cierra el Drawer
-              },
-            ),
           ],
         ),
       ),
-      body: ListView.builder(
+      body: _buildFavoritesBody(),
+    );
+  }
+
+  Widget _buildFavoritesBody() {
+    if (favoriteRecipes.isEmpty) {
+      return Center(
+        child: Text(
+          'No tienes recetas favoritas aún.',
+          style: TextStyle(fontSize: 18),
+        ),
+      );
+    } else {
+      return ListView.builder(
         itemCount: favoriteRecipes.length,
         itemBuilder: (context, index) {
           final recipe = favoriteRecipes[index];
@@ -122,7 +165,17 @@ class FavoritesScreen extends StatelessWidget {
                   children: [
                     TextButton(
                       onPressed: () {
-                        // Acciones al presionar el botón de detalles
+                        if (recipe['title'] == 'Frappe Chocolate') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => FrappeScreen()),
+                          );
+                        } else if (recipe['title'] == 'Latte Vainilla') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LatteScreen()),
+                          );
+                        }
                       },
                       child: Text('VER DETALLES'),
                     ),
@@ -132,7 +185,7 @@ class FavoritesScreen extends StatelessWidget {
             ),
           );
         },
-      ),
-    );
+      );
+    }
   }
 }

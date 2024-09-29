@@ -31,7 +31,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   List<Map<String, String>> filteredRecipes = [];
   TextEditingController _searchController = TextEditingController();
-
+  int _selectedIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -83,10 +83,10 @@ class _SearchScreenState extends State<SearchScreen> {
               leading: Icon(Icons.home),
               title: Text('Inicio'),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyApp()),
-                );
+                setState(() {
+                  _selectedIndex = 0;
+                });
+                Navigator.pop(context);
               },
             ),
             ListTile(

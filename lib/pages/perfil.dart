@@ -4,17 +4,45 @@ import 'buscar.dart';
 import 'misrecetas.dart';
 import 'my_home_page.dart';
 
-class UserProfileScreen extends StatelessWidget {
+class UserProfileScreen extends StatefulWidget {
+  @override
+  _UserProfileScreenState createState() => _UserProfileScreenState();
+}
+  int _selectedIndex = 0;
+
+class _UserProfileScreenState extends State<UserProfileScreen>
+    with SingleTickerProviderStateMixin {
   final String userName = "Nose quien";
   final String email = "Nquien@ejemplo.com";
   final String profileImageUrl =
       "https://www.w3schools.com/howto/img_avatar.png"; // URL de ejemplo para la imagen de perfil
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Perfil de Usuario'),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: [
+            Tab(text: "Perfil"),
+            Tab(text: "Mis Recetas"),
+          ],
+        ),
       ),
       endDrawer: Drawer(
         child: ListView(
@@ -36,10 +64,10 @@ class UserProfileScreen extends StatelessWidget {
               leading: Icon(Icons.home),
               title: Text('Inicio'),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyApp()),
-                );
+                setState(() {
+                  _selectedIndex = 0;
+                });
+                Navigator.pop(context);
               },
             ),
             ListTile(
@@ -63,64 +91,64 @@ class UserProfileScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.list),
-              title: Text('Mis Recetas'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyRecipesScreen()),
-                  ); // Cierra el Drawer
-              },
-            ),
-            ListTile(
               leading: Icon(Icons.favorite),
               title: Text('Favoritos'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context)=> FavoritesScreen()),
-                ); // Cierra el Drawer
+                  MaterialPageRoute(builder: (context) => FavoritesScreen()),
+                );
               },
             ),
           ],
         ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: 60,
-                backgroundImage: NetworkImage(profileImageUrl),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          _buildProfileTab(),  // Contenido de la pestaña "Perfil"
+          MyRecipesScreen(),   // Contenido de la pestaña "Mis Recetas"
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProfileTab() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 60,
+              backgroundImage: NetworkImage(profileImageUrl),
+            ),
+            SizedBox(height: 16),
+            Text(
+              userName,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
-              SizedBox(height: 16),
-              Text(
-                userName,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              email,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600],
               ),
-              SizedBox(height: 8),
-              Text(
-                email,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                ),
-              ),
-              SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () {
-                  // Acción para editar perfil
-                  print('Editar perfil');
-                },
-                child: Text('Editar Perfil'),
-              ),
-            ],
-          ),
+            ),
+            SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () {
+                // Acción para editar perfil
+                print('Editar perfil');
+              },
+              child: Text('Editar Perfil'),
+            ),
+          ],
         ),
       ),
     );

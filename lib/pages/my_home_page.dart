@@ -111,16 +111,6 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.list),
-              title: Text('Mis Recetas'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyRecipesScreen()),
-                  ); // Cierra el Drawer
-              },
-            ),
-            ListTile(
               leading: Icon(Icons.favorite),
               title: Text('Favoritos'),
               onTap: () {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pages/my_home_page.dart'; // Nueva importación
+import 'pages/my_home_page.dart'; 
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'PerfectBomber',
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 217, 0, 255),
+          seedColor: const Color.fromARGB(255, 255, 255, 255),
           brightness: Brightness.dark,
         ),
         textTheme: const TextTheme(
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home:  MyHomePage(),
-      color: const Color.fromARGB(255, 255, 17, 0),
+      color: const Color.fromARGB(221, 56, 27, 24),
     );
   }
 }

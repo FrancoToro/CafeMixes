@@ -3,6 +3,7 @@ import 'favoritos.dart';
 import 'buscar.dart';
 import 'perfil.dart';
 import 'my_home_page.dart';
+import 'package:cafemixes/main.dart';
 
 class MyRecipesScreen extends StatelessWidget {
   // Lista de recetas de ejemplo para la pantalla de "Mis Recetas"
@@ -19,18 +20,9 @@ class MyRecipesScreen extends StatelessWidget {
     },
   ];
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Mis Recetas'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
       endDrawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -51,10 +43,10 @@ class MyRecipesScreen extends StatelessWidget {
               leading: Icon(Icons.home),
               title: Text('Inicio'),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyApp()),
-                );
+                {
+                  
+                Navigator.pop(context);
+              };
               },
             ),
             ListTile(
@@ -90,60 +82,8 @@ class MyRecipesScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: ListView.builder(
-        itemCount: myRecipes.length,
-        itemBuilder: (context, index) {
-          final recipe = myRecipes[index];
-          return Card(
-            margin: EdgeInsets.all(10),
-            elevation: 3,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              children: [
-                Image.network(
-                  recipe['imageUrl']!,
-                  width: double.infinity,
-                  height: 150,
-                  fit: BoxFit.cover,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        recipe['title']!,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        recipe['description']!,
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                      ),
-                    ],
-                  ),
-                ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        // Acción al presionar "Ver Detalles"
-                      },
-                      child: Text('VER DETALLES'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+      
     );
+    
   }
 }
