@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'favoritos.dart';
 import 'buscar.dart';
 import 'misrecetas.dart';
+import 'Navegacion.dart';
 
 class UserProfileScreen extends StatefulWidget {
   @override
@@ -88,6 +89,16 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                   context,
                   MaterialPageRoute(builder: (context) => FavoritesScreen()),
                 );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.map),
+              title: Text('Navegacion'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context)=> NavegacionScreen()),
+                ); // Cierra el Drawer
               },
             ),
           ],

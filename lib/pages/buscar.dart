@@ -3,7 +3,7 @@ import 'favoritos.dart';
 import 'misrecetas.dart';
 import 'perfil.dart';
 import 'my_home_page.dart';
-
+import 'Navegacion.dart';
 class SearchScreen extends StatefulWidget {
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -107,6 +107,16 @@ class _SearchScreenState extends State<SearchScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context)=> FavoritesScreen()),
+                ); // Cierra el Drawer
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.map),
+              title: Text('Navegacion'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context)=> NavegacionScreen()),
                 ); // Cierra el Drawer
               },
             ),

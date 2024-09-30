@@ -1,3 +1,4 @@
+import 'package:cafemixes/pages/Navegacion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'FrappeScreen.dart';
@@ -5,6 +6,7 @@ import 'LatteScreen.dart';
 import 'buscar.dart';
 import 'misrecetas.dart';
 import 'perfil.dart';
+import 'Navegacion.dart';
 
 class FavoritesScreen extends StatelessWidget {
   @override
@@ -101,6 +103,16 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
                   context,
                   MaterialPageRoute(builder: (context) => SearchScreen()),
                 );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.map),
+              title: Text('Navegacion'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context)=> NavegacionScreen()),
+                ); // Cierra el Drawer
               },
             ),
           ],

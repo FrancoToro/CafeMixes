@@ -5,6 +5,7 @@ import 'buscar.dart';
 import 'FrappeScreen.dart';
 import 'LatteScreen.dart';
 import 'perfil.dart';
+import 'Navegacion.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key}); // Corrección del constructor
@@ -95,6 +96,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(builder: (context) => FavoritesScreen()), // Reemplaza FavoritesScreen con tu clase correcta
                 );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.map),
+              title: Text('Navegacion'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context)=> NavegacionScreen()),
+                ); // Cierra el Drawer
               },
             ),
           ],

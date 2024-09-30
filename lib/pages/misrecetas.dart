@@ -3,7 +3,7 @@ import 'favoritos.dart';
 import 'buscar.dart';
 import 'perfil.dart';
 import 'my_home_page.dart';
-import 'package:cafemixes/main.dart';
+import 'Crearreceta.dart'; // Asegúrate de importar la pantalla de creación de recetas
 
 class MyRecipesScreen extends StatelessWidget {
   // Lista de recetas de ejemplo para la pantalla de "Mis Recetas"
@@ -20,7 +20,7 @@ class MyRecipesScreen extends StatelessWidget {
     },
   ];
 
- @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       endDrawer: Drawer(
@@ -43,10 +43,7 @@ class MyRecipesScreen extends StatelessWidget {
               leading: Icon(Icons.home),
               title: Text('Inicio'),
               onTap: () {
-                {
-                  
                 Navigator.pop(context);
-              };
               },
             ),
             ListTile(
@@ -75,15 +72,26 @@ class MyRecipesScreen extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context)=> FavoritesScreen()),
+                  MaterialPageRoute(builder: (context) => FavoritesScreen()),
                 ); // Cierra el Drawer
               },
             ),
           ],
         ),
       ),
-      
+      body: Center(
+        child: Text('Mis Recetas'), // Puedes mostrar tus recetas aquí
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CreateRecipeScreen()), // Asegúrate de que esta pantalla exista
+          );
+        },
+        tooltip: 'Crear Receta',
+        child: Icon(Icons.add), // Icono para crear una nueva receta
+      ),
     );
-    
   }
 }
