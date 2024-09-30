@@ -5,12 +5,31 @@ import 'misrecetas.dart';
 import 'perfil.dart';
 import 'my_home_page.dart';
 
-class LatteScreen extends StatelessWidget {
+class LatteScreen extends StatefulWidget {
+  @override
+  _LatteScreenState createState() => _LatteScreenState();
+}
+
+class _LatteScreenState extends State<LatteScreen> {
+  int _rating = 0; // Calificación inicial
+
+
+  void _rateRecipe(int rating) {
+    setState(() {
+      _rating = rating;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Has calificado esta receta con $_rating estrella${_rating > 1 ? 's' : ''}.'),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Receta: Latte Vainilla'),
+        title: Text('Receta: Frappe Chocolate'),
       ),
       endDrawer: Drawer(
         child: ListView(
@@ -87,19 +106,23 @@ class LatteScreen extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text(
-              'Un delicioso café con leche y un toque de vainilla para darle un sabor especial.',
+              'Café con leche y un toque de vainilla.',
               style: TextStyle(fontSize: 16),
             ),
             Divider(height: 32, color: Colors.black),
-            Text(
+             Text(
               'Ingredientes',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
             Text('- 1 taza de leche'),
+            SizedBox(height: 8),
             Text('- 1 taza de café espresso'),
+            SizedBox(height: 8),
             Text('- 1 cucharadita de esencia de vainilla'),
+            SizedBox(height: 8),
             Text('- 2 cucharadas de azúcar o al gusto'),
+            SizedBox(height: 8),
             Text('- Canela en polvo para decorar (opcional)'),
             Divider(height: 32, color: Colors.black),
             Text(
@@ -107,12 +130,33 @@ class LatteScreen extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
-            Text('1. Calienta la leche en una olla a fuego medio hasta que esté caliente, pero sin que hierva.'),
-            Text('2. Añade la esencia de vainilla y el azúcar a la leche caliente, y mezcla bien.'),
-            Text('3. Prepara el café espresso y viértelo en una taza grande.'),
-            Text('4. Vierte la leche caliente sobre el café, formando una capa de espuma en la parte superior.'),
-            Text('5. Decora con un poco de canela en polvo si lo deseas.'),
-            Text('6. ¡Disfruta de tu delicioso latte de vainilla!'),
+            Text('1. Calienta la leche en una olla a fuego medio hasta que esté caliente, pero sin que hierva.Luego Añade la esencia de vainilla y el azúcar a la leche caliente, y mezcla bien'),
+            SizedBox(height: 8),
+            Text('2. Prepara el café espresso y viértelo en una taza grande.'),
+            SizedBox(height: 8),
+            Text('3. Vierte la leche caliente sobre el café, formando una capa de espuma en la parte superior.'),
+            SizedBox(height: 8),
+            Text('4. Decora con un poco de canela en polvo si lo deseas. Disfruta.'),
+            SizedBox(height: 32),
+            Text(
+              'Califica esta receta:',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: List.generate(5, (index) {
+                return IconButton(
+                  icon: Icon(
+                    _rating > index ? Icons.star : Icons.star_border,
+                    color: Colors.yellow,
+                  ),
+                  onPressed: () {
+                    _rateRecipe(index + 1); // Calificación de 1 a 5
+                  },
+                );
+              }),
+            ),
           ],
         ),
       ),

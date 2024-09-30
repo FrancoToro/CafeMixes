@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'favoritos.dart';
 import 'buscar.dart';
 import 'misrecetas.dart';
-import 'my_home_page.dart';
 
 class UserProfileScreen extends StatefulWidget {
   @override
@@ -35,6 +34,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(Icons.account_circle),
         title: Text('Perfil de Usuario'),
         bottom: TabBar(
           controller: _tabController,
@@ -68,16 +68,6 @@ class _UserProfileScreenState extends State<UserProfileScreen>
                   _selectedIndex = 0;
                 });
                 Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Perfil'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => UserProfileScreen()),
-                );
               },
             ),
             ListTile(

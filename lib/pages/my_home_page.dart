@@ -4,24 +4,11 @@ import 'favoritos.dart';
 import 'buscar.dart';
 import 'FrappeScreen.dart';
 import 'LatteScreen.dart';
-import 'misrecetas.dart';
 import 'perfil.dart';
 
-
-void main() {
-  runApp(MyApp());
-}
-  
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MyHomePage(),
-    );
-  }
-}
-
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key}); // Corrección del constructor
+  
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -51,13 +38,13 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         leading: SvgPicture.asset(
           'assets/icons/cafe.svg',
-          width: 100,
-          height: 100,
+          width: 50, // Ajuste del tamaño
+          height: 50,
         ),
-        title: Text("Cafe Mixes"),
+        title: const Text("Cafe Mixes"),
         actions: [
           IconButton(
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
             onPressed: () {
               _scaffoldKey.currentState?.openEndDrawer();
             },
@@ -69,10 +56,10 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(128, 255, 255, 255),
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(128, 255, 255, 255),
               ),
-              child: Text(
+              child: const Text(
                 'Menú',
                 style: TextStyle(
                   color: Colors.white,
@@ -81,43 +68,33 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Inicio'),
-              onTap: () {
-                setState(() {
-                  _selectedIndex = 0;
-                });
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Perfil'),
+              leading: const Icon(Icons.account_circle),
+              title: const Text('Perfil'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => UserProfileScreen()),
+                  MaterialPageRoute(builder: (context) => UserProfileScreen()), // Reemplaza UserProfileScreen con tu clase correcta
                 );
               },
             ),
             ListTile(
-              leading: Icon(Icons.search),
-              title: Text('Buscar'),
+              leading: const Icon(Icons.search),
+              title: const Text('Buscar'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SearchScreen()),
+                  MaterialPageRoute(builder: (context) => SearchScreen()), // Reemplaza SearchScreen con tu clase correcta
                 );
               },
             ),
             ListTile(
-              leading: Icon(Icons.favorite),
-              title: Text('Favoritos'),
+              leading: const Icon(Icons.favorite),
+              title: const Text('Favoritos'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context)=> FavoritesScreen()),
-                ); // Cierra el Drawer
+                  MaterialPageRoute(builder: (context) => FavoritesScreen()), // Reemplaza FavoritesScreen con tu clase correcta
+                );
               },
             ),
           ],
@@ -132,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case 0:
         return _buildRecipeList(); // Pantalla principal de recetas
       default:
-        return Container(); // Manejar otras pantallas
+        return Container(); // Manejar otras pantallas si es necesario
     }
   }
 
@@ -142,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
       itemBuilder: (context, index) {
         final recipe = recipes[index];
         return Card(
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           elevation: 3,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -162,12 +139,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Text(
                       recipe['title']!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
                       recipe['description']!,
                       style: TextStyle(fontSize: 14, color: Colors.grey[600]),
@@ -193,7 +170,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         );
                       }
                     },
-                    child: Text('VER DETALLES'),
+                    child: const Text('VER DETALLES'),
                   ),
                 ],
               ),

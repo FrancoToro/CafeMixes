@@ -5,7 +5,25 @@ import 'misrecetas.dart';
 import 'perfil.dart';
 import 'my_home_page.dart';
 
-class FrappeScreen extends StatelessWidget {
+class FrappeScreen extends StatefulWidget {
+  @override
+  _FrappeScreenState createState() => _FrappeScreenState();
+}
+
+class _FrappeScreenState extends State<FrappeScreen> {
+  int _rating = 0; // Calificación inicial
+
+  void _rateRecipe(int rating) {
+    setState(() {
+      _rating = rating;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Has calificado esta receta con $_rating estrella${_rating > 1 ? 's' : ''}.'),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,6 +131,26 @@ class FrappeScreen extends StatelessWidget {
             Text('3. Vierte la mezcla en un vaso y agrega crema batida encima.'),
             Text('4. Decora con salsa de chocolate al gusto.'),
             Text('5. ¡Disfruta tu frappe de chocolate!'),
+            SizedBox(height: 32),
+            Text(
+              'Califica esta receta:',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: List.generate(5, (index) {
+                return IconButton(
+                  icon: Icon(
+                    _rating > index ? Icons.star : Icons.star_border,
+                    color: Colors.yellow,
+                  ),
+                  onPressed: () {
+                    _rateRecipe(index + 1); // Calificación de 1 a 5
+                  },
+                );
+              }),
+            ),
           ],
         ),
       ),

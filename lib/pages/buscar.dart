@@ -61,6 +61,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(Icons.search),
         title: Text('Buscar Recetas'),
       ),
       endDrawer: Drawer(
@@ -97,16 +98,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   context,
                   MaterialPageRoute(builder: (context) => UserProfileScreen()),
                 );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.list),
-              title: Text('Mis Recetas'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyRecipesScreen()),
-                  ); // Cierra el Drawer
               },
             ),
             ListTile(

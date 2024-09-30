@@ -30,13 +30,14 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
     {
       'title': 'Frappe Chocolate',
       'description': 'Frappe con sabor a chocolate',
-      'imageUrl':
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPTtEaEnFb-Ko48_nTjuZLb86K0go1b8wcAQ&s'
+      'imageUrl': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPTtEaEnFb-Ko48_nTjuZLb86K0go1b8wcAQ&s',
+      'status': 'Me gusta',
     },
     {
       'title': 'Latte Vainilla',
       'description': 'Café con leche y un toque de vainilla',
-      'imageUrl': 'https://osterstatic.reciperm.com/webp/10101.webp'
+      'imageUrl': 'https://osterstatic.reciperm.com/webp/10101.webp',
+      'status': 'Me gusta',
     },
   ];
 
@@ -45,11 +46,7 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        leading: SvgPicture.asset(
-          'assets/icons/cafe.svg',
-          width: 50,
-          height: 50,
-        ),
+        leading: Icon(Icons.favorite_border),
         title: Text("Mis Favoritos"),
         actions: [
           IconButton(
@@ -122,69 +119,99 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
         ),
       );
     } else {
-      return ListView.builder(
-        itemCount: favoriteRecipes.length,
-        itemBuilder: (context, index) {
-          final recipe = favoriteRecipes[index];
-          return Card(
-            margin: EdgeInsets.all(10),
-            elevation: 3,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              children: [
-                Image.network(
-                  recipe['imageUrl']!,
-                  width: double.infinity,
-                  height: 150,
-                  fit: BoxFit.cover,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        recipe['title']!,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // Número de columnas
+            childAspectRatio: 0.8, // Ajusta el aspecto de las tarjetas
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemCount: favoriteRecipes.length,
+          itemBuilder: (context, index) {
+            final recipe = favoriteRecipes[index];
+            return Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: InkWell(
+                onTap: () {
+                  if (recipe['title'] == 'Frappe Chocolate') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FrappeScreen()),
+                    );
+                  } else if (recipe['title'] == 'Latte Vainilla') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LatteScreen()),
+                    );
+                  }
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(10)),
+                        child: Image.network(
+                          recipe['imageUrl']!,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      SizedBox(height: 8),
-                      Text(
-                        recipe['description']!,
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            recipe['title']!,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            recipe['description']!,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 2, horizontal: 8),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 255, 0, 0),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Stack( // Centrar el ícono
+                          children: [
+                          Icon(
+                            Icons.favorite,
+                            color: Colors.white, // Color del ícono
+                            size: 32, // Tamaño del ícono
+                              ),
+                            ],
+                          ),
+                            
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        if (recipe['title'] == 'Frappe Chocolate') {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => FrappeScreen()),
-                          );
-                        } else if (recipe['title'] == 'Latte Vainilla') {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => LatteScreen()),
-                          );
-                        }
-                      },
-                      child: Text('VER DETALLES'),
                     ),
                   ],
                 ),
-              ],
-            ),
-          );
-        },
+              ),
+            );
+          },
+        ),
       );
     }
   }
