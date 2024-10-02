@@ -16,3 +16,7 @@ La aplicación está diseñada para dispositivos móviles.
 La interfaz es fácil de usar.
 La aplicación tiene la capacidad de manejar una gran cantidad de recetas.
 La aplicación es escalable, permitiendo el manejo de un gran número de usuarios.
+
+
+Video:
+https://drive.google.com/file/d/1Fs6qiyPIHD2P-EGAR6_9FfoSBOCMK0_N/view?usp=sharing
