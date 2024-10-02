@@ -3,14 +3,14 @@ import 'favoritos.dart';
 import 'buscar.dart';
 import 'misrecetas.dart';
 import 'Navegacion.dart';
-
-class UserProfileScreen extends StatefulWidget {
+import 'my_home_page.dart';
+class Perfil extends StatefulWidget {
   @override
-  _UserProfileScreenState createState() => _UserProfileScreenState();
+  _PerfilState createState() => _PerfilState();
 }
   int _selectedIndex = 0;
 
-class _UserProfileScreenState extends State<UserProfileScreen>
+class _PerfilState extends State<Perfil>
     with SingleTickerProviderStateMixin {
   final String userName = "Nose quien";
   final String email = "Nquien@ejemplo.com";
@@ -65,11 +65,12 @@ class _UserProfileScreenState extends State<UserProfileScreen>
               leading: Icon(Icons.home),
               title: Text('Inicio'),
               onTap: () {
-                setState(() {
-                  _selectedIndex = 0;
-                });
-                Navigator.pop(context);
-              },
+                Navigator.push(
+
+                  context,
+                MaterialPageRoute(builder: (context)=> MyHomePage()),
+                );
+              }
             ),
             ListTile(
               leading: Icon(Icons.search),
@@ -77,7 +78,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SearchScreen()),
+                  MaterialPageRoute(builder: (context) => Buscar()),
                 );
               },
             ),
@@ -108,7 +109,7 @@ class _UserProfileScreenState extends State<UserProfileScreen>
         controller: _tabController,
         children: [
           _buildProfileTab(),  // Contenido de la pestaña "Perfil"
-          MyRecipesScreen(),   // Contenido de la pestaña "Mis Recetas"
+          Misrecetas(),   // Contenido de la pestaña "Mis Recetas"
         ],
       ),
     );

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'FrappeScreen.dart';
 import 'LatteScreen.dart';
 import 'buscar.dart';
-import 'misrecetas.dart';
+import 'my_home_page.dart';
 import 'perfil.dart';
+import 'favoritos.dart';
 
 class NavegacionScreen extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class NavegacionScreen extends StatefulWidget {
 
 class _NavegacionScreenState extends State<NavegacionScreen> {
   double _imageScale = 1.0; // Escala inicial de la imagen
+  Offset _imageOffset = Offset.zero; // Posición inicial de la imagen
 
   void _increaseImageSize() {
     setState(() {
@@ -22,6 +24,12 @@ class _NavegacionScreenState extends State<NavegacionScreen> {
   void _decreaseImageSize() {
     setState(() {
       _imageScale = (_imageScale > 0.1) ? _imageScale - 0.1 : 0.1; // Reducir la escala de la imagen
+    });
+  }
+
+  void _onPanUpdate(DragUpdateDetails details) {
+    setState(() {
+      _imageOffset += details.delta; // Actualizar la posición de la imagen al arrastrar
     });
   }
 
@@ -51,16 +59,21 @@ class _NavegacionScreenState extends State<NavegacionScreen> {
               leading: Icon(Icons.home),
               title: Text('Inicio'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.pop(context); // Cerrar el Drawer
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => MyHomePage()),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.account_circle),
               title: Text('Perfil'),
               onTap: () {
+                Navigator.pop(context); // Cerrar el Drawer
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => UserProfileScreen()),
+                  MaterialPageRoute(builder: (context) => Perfil()),
                 );
               },
             ),
@@ -68,9 +81,21 @@ class _NavegacionScreenState extends State<NavegacionScreen> {
               leading: Icon(Icons.search),
               title: Text('Buscar'),
               onTap: () {
+                Navigator.pop(context); // Cerrar el Drawer
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SearchScreen()),
+                  MaterialPageRoute(builder: (context) => Buscar()),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.favorite),
+              title: Text('Favoritos'),
+              onTap: () {
+                Navigator.pop(context); // Cerrar el Drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FavoritesScreen()),
                 );
               },
             ),
@@ -80,11 +105,17 @@ class _NavegacionScreenState extends State<NavegacionScreen> {
       body: Stack(
         children: [
           Center(
-            child: Transform.scale(
-              scale: _imageScale, // Aplicar la escala a la imagen
-              child: Image.network(
-                'https://i.blogs.es/bea80b/diseno-sin-titulo-11-/1366_2000.jpeg',
-                fit: BoxFit.cover,
+            child: GestureDetector(
+              onPanUpdate: _onPanUpdate, // Detectar el movimiento del usuario
+              child: Transform.translate(
+                offset: _imageOffset, // Aplicar la posición actual de la imagen
+                child: Transform.scale(
+                  scale: _imageScale, // Aplicar la escala a la imagen
+                  child: Image.network(
+                    'https://i.blogs.es/bea80b/diseno-sin-titulo-11-/1366_2000.jpeg',
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
           ),
@@ -99,14 +130,16 @@ class _NavegacionScreenState extends State<NavegacionScreen> {
                   FloatingActionButton(
                     onPressed: _increaseImageSize,
                     tooltip: 'Aumentar',
+                    heroTag: 'increaseButton', // Asegurarse de que el tag sea único
                     child: Icon(Icons.add),
                   ),
+                  SizedBox(height: 8), // Añadir un espacio entre los botones
                   FloatingActionButton(
                     onPressed: _decreaseImageSize,
                     tooltip: 'Reducir',
+                    heroTag: 'decreaseButton', // Asegurarse de que el tag sea único
                     child: Icon(Icons.remove),
                   ),
-                  
                 ],
               ),
             ),

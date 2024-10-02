@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'favoritos.dart';
-import 'misrecetas.dart';
 import 'perfil.dart';
 import 'my_home_page.dart';
 import 'Navegacion.dart';
-class SearchScreen extends StatefulWidget {
+class Buscar extends StatefulWidget {
   @override
-  _SearchScreenState createState() => _SearchScreenState();
+  _BuscarState createState() => _BuscarState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _BuscarState extends State<Buscar> {
   final List<Map<String, String>> allRecipes = [
     {
       'title': 'Frappe Chocolate',
@@ -84,11 +83,12 @@ class _SearchScreenState extends State<SearchScreen> {
               leading: Icon(Icons.home),
               title: Text('Inicio'),
               onTap: () {
-                setState(() {
-                  _selectedIndex = 0;
-                });
-                Navigator.pop(context);
-              },
+                Navigator.push(
+
+                  context,
+                MaterialPageRoute(builder: (context)=> MyHomePage()),
+                );
+              }
             ),
             ListTile(
               leading: Icon(Icons.account_circle),
@@ -96,7 +96,7 @@ class _SearchScreenState extends State<SearchScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => UserProfileScreen()),
+                  MaterialPageRoute(builder: (context) => Perfil()),
                 );
               },
             ),

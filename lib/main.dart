@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
 
 
     return MaterialApp(
-      title: 'Demostracion de Flutter',
+      title: 'CafeMixes',
       home: const MyHomePage(),
       color: const Color.fromARGB(221, 255, 255, 255),
     );

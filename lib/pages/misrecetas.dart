@@ -5,7 +5,7 @@ import 'perfil.dart';
 import 'my_home_page.dart';
 import 'Crearreceta.dart'; // Asegúrate de importar la pantalla de creación de recetas
 
-class MyRecipesScreen extends StatelessWidget {
+class Misrecetas extends StatelessWidget {
   // Lista de recetas de ejemplo para la pantalla de "Mis Recetas"
   final List<Map<String, String>> myRecipes = [
     {
@@ -52,7 +52,7 @@ class MyRecipesScreen extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => UserProfileScreen()),
+                  MaterialPageRoute(builder: (context) => Perfil()),
                 );
               },
             ),
@@ -62,7 +62,7 @@ class MyRecipesScreen extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SearchScreen()),
+                  MaterialPageRoute(builder: (context) => Buscar()),
                 );
               },
             ),

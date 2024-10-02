@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             DrawerHeader(
               decoration: const BoxDecoration(
-                color: Color.fromARGB(128, 255, 255, 255),
+                color: Color.fromRGBO(114, 56, 56, 0.502),
               ),
               child: const Text(
                 'Menú',
@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => UserProfileScreen()), // Reemplaza UserProfileScreen con tu clase correcta
+                  MaterialPageRoute(builder: (context) => Perfil()), 
                 );
               },
             ),
@@ -84,8 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SearchScreen()), // Reemplaza SearchScreen con tu clase correcta
-                );
+                  MaterialPageRoute(builder: (context) => Buscar()), 
+                  );
               },
             ),
             ListTile(

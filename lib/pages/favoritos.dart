@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'FrappeScreen.dart';
 import 'LatteScreen.dart';
 import 'buscar.dart';
-import 'misrecetas.dart';
+import 'my_home_page.dart';
 import 'perfil.dart';
 import 'Navegacion.dart';
 
@@ -79,11 +79,12 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
               leading: Icon(Icons.home),
               title: Text('Inicio'),
               onTap: () {
-                setState(() {
-                  _selectedIndex = 0;
-                });
-                Navigator.pop(context);
-              },
+                Navigator.push(
+
+                  context,
+                MaterialPageRoute(builder: (context)=> MyHomePage()),
+                );
+              }
             ),
             ListTile(
               leading: Icon(Icons.account_circle),
@@ -91,7 +92,7 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => UserProfileScreen()),
+                  MaterialPageRoute(builder: (context) => Perfil()),
                 );
               },
             ),
@@ -101,7 +102,7 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SearchScreen()),
+                  MaterialPageRoute(builder: (context) => Buscar()),
                 );
               },
             ),
