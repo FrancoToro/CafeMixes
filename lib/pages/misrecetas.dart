@@ -1,11 +1,16 @@
+import 'package:cafemixes/utils/DatabaseHelper.dart';
 import 'package:flutter/material.dart';
 import 'favoritos.dart';
 import 'buscar.dart';
-import 'perfil.dart';
+import 'mibarista.dart';
 import 'my_home_page.dart';
-import 'Crearreceta.dart'; // Asegúrate de importar la pantalla de creación de recetas
+import 'opinion.dart';
+import 'Crearreceta.dart'; 
+import 'package:cafemixes/utils/colors.dart';
+import 'package:cafemixes/model/Receta.dart';
 
 class Misrecetas extends StatelessWidget {
+
   // Lista de recetas de ejemplo para la pantalla de "Mis Recetas"
   final List<Map<String, String>> myRecipes = [
     {
@@ -22,6 +27,9 @@ class Misrecetas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final Future<List<Receta>> recetas = DatabaseHelper().GetRecipes();
+
     return Scaffold(
       endDrawer: Drawer(
         child: ListView(
@@ -48,7 +56,7 @@ class Misrecetas extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.account_circle),
-              title: Text('Perfil'),
+              title: Text('Mi barista'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -73,6 +81,16 @@ class Misrecetas extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => FavoritesScreen()),
+                ); // Cierra el Drawer
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.grade),
+              title: Text('Opinion'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context)=> CuestionarioScreen()),
                 ); // Cierra el Drawer
               },
             ),

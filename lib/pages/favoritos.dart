@@ -1,12 +1,14 @@
-import 'package:cafemixes/pages/Navegacion.dart';
+import 'package:cafemixes/utils/DatabaseHelper.dart';
+import 'package:cafemixes/model/Receta.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'FrappeScreen.dart';
 import 'LatteScreen.dart';
 import 'buscar.dart';
 import 'my_home_page.dart';
-import 'perfil.dart';
-import 'Navegacion.dart';
+import 'mibarista.dart';
+import 'Opinion.dart';
+import 'package:cafemixes/utils/colors.dart';
 
 class FavoritesScreen extends StatelessWidget {
   @override
@@ -28,7 +30,7 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
   int _selectedIndex = 0;
 
   // Lista de recetas de ejemplo
-  final List<Map<String, String>> favoriteRecipes = [
+  /*final List<Map<String, String>> favoriteRecipes = [
     {
       'title': 'Frappe Chocolate',
       'description': 'Frappe con sabor a chocolate',
@@ -42,12 +44,17 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
       'status': 'Me gusta',
     },
   ];
+  */
+
+  final Future<List<Receta>> favoriteRecipes = DatabaseHelper().GetFavoriteRecipes();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       key: _scaffoldKey,
       appBar: AppBar(
+        backgroundColor:  CafeColors.Cafe.shade400,
         leading: Icon(Icons.favorite_border),
         title: Text("Mis Favoritos"),
         actions: [
@@ -88,7 +95,7 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
             ),
             ListTile(
               leading: Icon(Icons.account_circle),
-              title: Text('Perfil'),
+              title: Text('Mi barista'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -107,12 +114,12 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.map),
-              title: Text('Navegacion'),
+              leading: Icon(Icons.grade),
+              title: Text('Opinion'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context)=> NavegacionScreen()),
+                  MaterialPageRoute(builder: (context)=> CuestionarioScreen()),
                 ); // Cierra el Drawer
               },
             ),
@@ -123,7 +130,20 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> {
     );
   }
 
-  Widget _buildFavoritesBody() {
+  Widget _buildFavoritesBody()
+  {
+    return FutureBuilder<List<Receta>>(
+      future: favoriteRecipes,
+      builder: (context, snapshot) {
+        if (snapshot.hasData)
+        {
+
+        } else {
+
+        }
+      } 
+      );
+
     if (favoriteRecipes.isEmpty) {
       return Center(
         child: Text(

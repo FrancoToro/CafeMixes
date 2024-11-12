@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'favoritos.dart';
-import 'perfil.dart';
+import 'mibarista.dart';
 import 'my_home_page.dart';
-import 'Navegacion.dart';
+import 'opinion.dart';
+import 'package:cafemixes/utils/colors.dart';
+
 class Buscar extends StatefulWidget {
   @override
   _BuscarState createState() => _BuscarState();
@@ -92,7 +94,7 @@ class _BuscarState extends State<Buscar> {
             ),
             ListTile(
               leading: Icon(Icons.account_circle),
-              title: Text('Perfil'),
+              title: Text('Mi barista'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -111,12 +113,12 @@ class _BuscarState extends State<Buscar> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.map),
-              title: Text('Navegacion'),
+              leading: Icon(Icons.grade),
+              title: Text('Opinion'),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context)=> NavegacionScreen()),
+                  MaterialPageRoute(builder: (context)=> CuestionarioScreen()),
                 ); // Cierra el Drawer
               },
             ),
