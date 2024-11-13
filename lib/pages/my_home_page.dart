@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'favoritos.dart';
 import 'buscar.dart';
-import 'FrappeScreen.dart';
-import 'LatteScreen.dart';
+import 'ViewerScreen.dart';
 import 'mibarista.dart';
 import 'opinion.dart';
 import 'package:cafemixes/utils/colors.dart';
@@ -68,16 +67,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   context,
                   MaterialPageRoute(builder: (context) => Perfil()), 
                 );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.search),
-              title: const Text('Buscar'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Buscar()), 
-                  );
               },
             ),
             ListTile(

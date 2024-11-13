@@ -1,22 +1,53 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:async';
+import 'dart:io';
+import 'package:flutter/services.dart' ;
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:cafemixes/model/Receta.dart';
 
 class DatabaseHelper 
-{
+{ 
     static late final Future<Database> database;
-
-    static void InitDatabase() async
+    static _onCreate(Database db, int version) async
     {
-        database = openDatabase(
-            join(await getDatabasesPath(),"coffee_db"),
-            onCreate: (db, version) {
-                return db.execute("CREATE TABLE recipes(id INTEGER PRIMARY KEY AUTOINCREMENT, recipe STRING, fav INT)");
-                }, version: 1,
-            );
+          print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+      await db.execute("CREATE TABLE recipes (id INTEGER PRIMARY KEY, recipe TEXT, fav INTEGER)");        
+      
+      for (int i = 1; i<5; i++)
+      {
+        String n1 = await readAsset('assets/recipe$i.json');
+        Map<String, Object?> data =
+        {
+          'id': i,
+          'recipe': n1,
+          'fav': 1
+        };
+
+        await db.insert('recipes',data, conflictAlgorithm: ConflictAlgorithm.replace);
+
+        print("insertado $i : $n1");
+      }
+    }
+
+    static Future<void> InitDatabase() async
+    {
+      var databasesPath = await getDatabasesPath();
+
+      print(databasesPath+ "***********************");
+
+      // Make sure the directory exist
+      try {
+        await Directory(databasesPath).create(recursive: true);
+      } catch (_) { print("ERROR FATAL***************************************************");}
+      
+      database = openDatabase(
+          join(await getDatabasesPath(),"coffee_db"),
+          onCreate: _onCreate,
+          version: 1,
+          );
     }
 
     //guardar en base de dato a partir de objeto
@@ -34,33 +65,33 @@ class DatabaseHelper
       await db.insert('recipes', data, conflictAlgorithm: ConflictAlgorithm.replace);
     }
 
-    Future<void> updateRecipe(Receta r) async
+    static Future<void> updateRecipe(Receta r) async
     {
       final db = await database;
       Map<String, Object?> data =
       {
         'id': r.id,
-        'recipe': jsonEncode(r.toJson())
+        'recipe': jsonEncode(r.toJson()),
+        'fav': r.favorita ? 1:0
       };
       await db.update('recipes', data, where: 'id = ?', whereArgs: [r.id]);
     }
 
-    Future<List<Receta>> GetRecipes() async {
+    static Future<List<Receta>> GetRecipes() async {
       final db = await database;
 
       final List<Map<String, Object?>> dbMaps = await db.query('recipes');
 
-      return [
-        for (final {
-          'id': id as int,
-          'recipe': recipe as String,
-          'fav': fav as bool
-        } in dbMaps)
-        Receta.fromJson(jsonDecode(recipe), f: fav)
-      ];
+      List<Receta> recetas = [];
+      for (Map<String, Object?> map in dbMaps)
+      {
+        recetas.add(Receta.fromJson(jsonDecode(map['recipe'] as String), f: map['fav'] == 0 ? false : true));
+      }
+
+      return recetas;
     }
 
-    Future<List<Receta>> GetFavoriteRecipes() async {
+    static Future<List<Receta>> GetFavoriteRecipes() async {
       final db = await database;
 
       final List<Map<String, Object?>> dbMaps = await db.query('recipes',where: 'fav = ?', whereArgs: [1]);
@@ -74,7 +105,7 @@ class DatabaseHelper
       ];
     }
 
-    Future<Receta> GetRecipeById(int id) async
+    static Future<Receta> GetRecipeById(int id) async
     {
       final db = await database;
       final List<Map<String, Object?>> dbMaps = await db.query('recipes',where: 'id = ?', whereArgs: [id]);
@@ -86,13 +117,19 @@ class DatabaseHelper
         [
         for (final {
           'id': id as int,
-          'recipe': recipe as String
+          'recipe': recipe as String,
+          'fav': fav as bool
         } in dbMaps)
-        Receta.fromJson(jsonDecode(recipe))];
+        Receta.fromJson(jsonDecode(recipe), f: fav)];
 
         return list.first;
       }
 
       throw new FormatException("BASE DE DATOS VACIA");
+    }
+
+    static Future<String> readAsset(String n) async
+    {
+      return await rootBundle.loadString(n);
     }
 }
