@@ -157,10 +157,16 @@ class _viewerState extends State<ViewerScreen>
                     },
                   );
                 }),
+                
               ),
+              
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: ()=> _shareRecipe,
+        child: Icon(Icons.share),
       ),
     );
   }
