@@ -1,5 +1,6 @@
 import 'package:cafemixes/utils/DatabaseHelper.dart';
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'favoritos.dart';
 import 'buscar.dart';
 import 'mibarista.dart';
@@ -170,5 +171,14 @@ class _viewerState extends State<ViewerScreen>
       recipe.rating = index + 1; // Calificación de 1 a 5
       DatabaseHelper.updateRecipe(recipe);
     });
+  }
+
+void _shareRecipe() {
+String compartir_info = '''
+Título: ${recipe.nombre}
+Ingredientes: ${recipe.ingredientes.join(", ")}
+Instrucciones: ${recipe.pasos.join("\n")}
+''';
+    Share.share( compartir_info );
   }
 }
